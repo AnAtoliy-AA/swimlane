@@ -6,6 +6,7 @@ import Droppable from '../dnd/Droppable'
 import styled from 'styled-components'
 import { RemoveSVG } from '@/assets/RemoveSVG'
 import useSettingsStore from '@/store/settingsStore'
+import { ITEMS_GAP } from '@/utils/moveItem'
 
 interface IProps {
   line: ILine
@@ -35,6 +36,7 @@ const ItemsWrapper = styled.div<{
 }>`
   display: flex;
   flex-direction: ${({ $direction }) => ($direction ? 'row' : 'column')};
+  gap: ${ITEMS_GAP}px;
 `
 
 const Line = ({ line, items, remove }: IProps) => {

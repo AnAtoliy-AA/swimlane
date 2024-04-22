@@ -10,6 +10,7 @@ interface IOpts {
 }
 
 export const ITEM_SIZE = 150
+export const ITEMS_GAP = 10
 
 const moveItem = ({
   items,
@@ -36,7 +37,7 @@ const moveItem = ({
     copyItems.set(lineId, arrayWithoutItem)
     const destinationArray = copyItems.get(destinationId) || []
 
-    const newItemIndex = Math.round(deltaY / ITEM_SIZE)
+    const newItemIndex = Math.round(deltaY / (ITEM_SIZE + ITEMS_GAP))
 
     const editedItem = {
       ...oldItem,
