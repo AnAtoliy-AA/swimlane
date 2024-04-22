@@ -7,6 +7,7 @@ import { ID, INodeItem } from '@/types/INodeItem'
 import { DndContext, DragEndEvent } from '@dnd-kit/core'
 import { ArcherContainer } from 'react-archer'
 import moveItem from '@/utils/moveItem'
+import useSettingsStore from '@/store/settingsStore'
 
 const mockLines: Array<ILine> = [
   { id: '31', name: 'customer' },
@@ -43,18 +44,18 @@ mockItems.set(mockLines[2].id, [
   },
 ])
 
-type TDirection = 'column' | 'row'
-
 const Wrapper = styled.div<{
-  $direction?: TDirection
+  $direction?: boolean
 }>`
   display: flex;
-  flex-direction: ${({ $direction }) => ($direction ? $direction : 'column')};
+  flex-direction: ${({ $direction }) => ($direction ? 'row' : 'column')};
 
   background-color: var(--background);
 `
 
 const LinesWrapper = () => {
+  const { isHorizontal } = useSettingsStore()
+
   const [lines, setLines] = useState<Array<ILine>>(mockLines)
   const [nodeItems, setNodeItems] = useState<TNodeItems>(mockItems)
 
@@ -81,7 +82,7 @@ const LinesWrapper = () => {
   return (
     <DndContext onDragEnd={handleDragEnd}>
       <ArcherContainer strokeColor='var(--background-secondary)'>
-        <Wrapper>
+        <Wrapper $direction={isHorizontal}>
           {lines.map((line: ILine) => {
             const items = nodeItems.get(line.id)
 
