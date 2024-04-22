@@ -1,10 +1,14 @@
+import { UniqueIdentifier } from '@dnd-kit/core'
+
+export type ID = UniqueIdentifier
+
 export interface IPosition {
-  lineId: number | string
+  lineId: ID
   index: number
 }
 
 export interface INodeItem {
-  id: number | string
+  id: ID
   text: string
   position: IPosition
 }

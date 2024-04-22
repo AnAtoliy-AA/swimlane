@@ -2,6 +2,7 @@ import { ILine } from '@/types/ILine'
 import { INodeItem } from '@/types/INodeItem'
 import { useCallback } from 'react'
 import NodeItem from '../NodeItem'
+import Droppable from '../dnd/Droppable'
 
 interface IProps {
   line: ILine
@@ -10,20 +11,22 @@ interface IProps {
 }
 
 const Line = ({ line, items, remove }: IProps) => {
+  const { id, name } = line
+
   const handleRemove = useCallback(() => {
     if (remove) {
-      remove(line.id)
+      remove(id)
     }
-  }, [line.id, remove])
+  }, [id, remove])
 
   return (
-    <>
-      <p>{line.name}</p>
+    <Droppable id={id}>
+      <p>{name}</p>
       {items?.map((nodeItem: INodeItem) => {
-        return <NodeItem nodeItem={nodeItem} />
+        return <NodeItem key={nodeItem.id} nodeItem={nodeItem} lineId={id} />
       })}
       <p onClick={handleRemove}>X</p>
-    </>
+    </Droppable>
   )
 }
 
