@@ -1,6 +1,8 @@
 import { ILine } from '@/types/ILine'
 import Line from './Line'
 import styled from 'styled-components'
+import { useCallback, useState } from 'react'
+import AddComponent from '../AddComponent'
 
 const mockLines: Array<ILine> = [
   { id: 1, name: 'customer' },
@@ -21,11 +23,21 @@ const Wrapper = styled.div<{
 `
 
 const LinesWrapper = () => {
+  const [lines, setLines] = useState<Array<ILine>>(mockLines)
+  const addLine = useCallback(() => {
+    setLines((prev) => {
+      const lastItemId = prev[length - 1]?.id
+
+      return [...prev, { id: lastItemId ? lastItemId : 0, name: '' }]
+    })
+  }, [])
+
   return (
     <Wrapper>
-      {mockLines.map((line: ILine) => {
+      {lines.map((line: ILine) => {
         return <Line line={line} />
       })}
+      <AddComponent cb={addLine} />
     </Wrapper>
   )
 }
