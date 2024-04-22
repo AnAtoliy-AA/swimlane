@@ -40,7 +40,7 @@ mockItems.set(mockLines[2].id, [
     id: '22',
     text: 'Check the stock',
     position: { lineId: mockLines[2].id, index: 0 },
-    targetId: '23',
+    targetId: '20',
   },
 ])
 

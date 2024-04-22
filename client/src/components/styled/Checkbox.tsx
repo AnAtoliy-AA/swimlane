@@ -9,7 +9,7 @@ interface IProps {
 const Checkbox = ({ checked, label, onChange }: IProps) => {
   return (
     <Styled onClick={onChange}>
-      <input type='checkbox' checked={checked} />
+      <input type='checkbox' checked={checked} onChange={onChange} />
       <label>{label}</label>
     </Styled>
   )
