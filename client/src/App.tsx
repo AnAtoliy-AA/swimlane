@@ -1,9 +1,5 @@
 function App() {
-  return (
-    <>
-      Swimlane UI
-    </>
-  )
+  return <>Swimlane UI</>
 }
 
 export default App
