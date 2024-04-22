@@ -19,8 +19,6 @@ const moveItem = ({ items, itemId, destinationId }: IOpts): TNodeItems => {
     .get(lineId)
     ?.find((removedItem) => removedItem.id === moveItemId)
 
-  const destinationArray = copyItems.get(destinationId) || []
-
   if (oldItem) {
     const arrayWithoutItem =
       copyItems
@@ -29,6 +27,7 @@ const moveItem = ({ items, itemId, destinationId }: IOpts): TNodeItems => {
 
     copyItems.set(lineId, arrayWithoutItem)
 
+    const destinationArray = copyItems.get(destinationId) || []
     const editedItem = {
       ...oldItem,
       position: { lineId: destinationId, index: 1 },

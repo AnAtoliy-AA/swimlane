@@ -14,4 +14,5 @@ export interface INodeItem {
   text: string
   position: IPosition
   shape?: TShape
+  targetId?: string
 }

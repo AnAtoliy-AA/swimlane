@@ -1,6 +1,7 @@
 import { ID, INodeItem, TShape } from '@/types/INodeItem'
 import styled from 'styled-components'
 import Draggable from './dnd/Draggable'
+import { ArcherElement } from 'react-archer'
 
 interface IProps {
   nodeItem: INodeItem
@@ -34,13 +35,24 @@ const NodeItemWrapper = styled.div<{
 `
 
 const NodeItem = ({ nodeItem, lineId }: IProps) => {
-  const { id, text, shape } = nodeItem
+  const { id, text, shape, targetId } = nodeItem
 
   return (
     <Draggable id={id} lineId={lineId}>
-      <NodeItemWrapper $shape={shape}>
-        <p>{text}</p>
-      </NodeItemWrapper>
+      <ArcherElement
+        id={`${id}`}
+        relations={[
+          {
+            targetId: targetId || '',
+            targetAnchor: 'top',
+            sourceAnchor: 'bottom',
+          },
+        ]}
+      >
+        <NodeItemWrapper $shape={shape}>
+          <p>{text}</p>
+        </NodeItemWrapper>
+      </ArcherElement>
     </Draggable>
   )
 }

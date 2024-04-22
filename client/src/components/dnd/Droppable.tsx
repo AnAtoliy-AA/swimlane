@@ -10,7 +10,7 @@ const Droppable = ({ id, children }: PropsWithChildren<IProps>) => {
     id,
   })
   const style = {
-    color: isOver ? 'green' : undefined,
+    color: isOver ? 'var(--success)' : undefined,
   }
 
   return (

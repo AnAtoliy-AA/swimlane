@@ -5,6 +5,7 @@ import { useCallback, useState } from 'react'
 import AddComponent from '../AddComponent'
 import { ID, INodeItem } from '@/types/INodeItem'
 import { DndContext, DragEndEvent } from '@dnd-kit/core'
+import { ArcherContainer } from 'react-archer'
 import moveItem from '@/utils/moveItem'
 
 const mockLines: Array<ILine> = [
@@ -22,6 +23,7 @@ mockItems.set(mockLines[0].id.toString(), [
     id: '20',
     text: 'Place a product order',
     position: { lineId: mockLines[0].id, index: 0 },
+    targetId: '21',
   },
 ])
 mockItems.set(mockLines[1].id, [
@@ -29,6 +31,7 @@ mockItems.set(mockLines[1].id, [
     id: '21',
     text: 'Confirm if order is recieved',
     position: { lineId: mockLines[1].id, index: 0 },
+    targetId: '22',
   },
 ])
 mockItems.set(mockLines[2].id, [
@@ -36,6 +39,7 @@ mockItems.set(mockLines[2].id, [
     id: '22',
     text: 'Check the stock',
     position: { lineId: mockLines[2].id, index: 0 },
+    targetId: '23',
   },
 ])
 
@@ -76,16 +80,23 @@ const LinesWrapper = () => {
 
   return (
     <DndContext onDragEnd={handleDragEnd}>
-      <Wrapper>
-        {lines.map((line: ILine) => {
-          const items = nodeItems.get(line.id)
+      <ArcherContainer strokeColor='var(--background-secondary)'>
+        <Wrapper>
+          {lines.map((line: ILine) => {
+            const items = nodeItems.get(line.id)
 
-          return (
-            <Line key={line.id} line={line} remove={removeLine} items={items} />
-          )
-        })}
-        <AddComponent add={addLine} />
-      </Wrapper>
+            return (
+              <Line
+                key={line.id}
+                line={line}
+                remove={removeLine}
+                items={items}
+              />
+            )
+          })}
+          <AddComponent add={addLine} />
+        </Wrapper>
+      </ArcherContainer>
     </DndContext>
   )
 }
