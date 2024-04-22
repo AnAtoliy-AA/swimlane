@@ -16,6 +16,8 @@ const Wrapper = styled.div<{
 }>`
   display: flex;
   flex-direction: ${({ $direction }) => ($direction ? $direction : 'column')};
+
+  background-color: var(--background);
 `
 
 const LinesWrapper = () => {
