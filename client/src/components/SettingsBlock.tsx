@@ -21,7 +21,6 @@ const SettingsBlock = () => {
       <button onClick={toggleIsModalOpen}>
         <SettingsSVG />
       </button>
-      {String(isModalOpen)}
 
       <ModalContainer $isVisible={isModalOpen}>
         <OutsideBackground

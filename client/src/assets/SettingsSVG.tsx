@@ -1,10 +1,10 @@
 import { THEMES } from '../constants/styles/theme'
 
-interface ICameraIcon {
+interface Icon {
   color?: string
 }
 
-export const SettingsSVG = ({ color }: ICameraIcon) => {
+export const SettingsSVG = ({ color }: Icon) => {
   const fillColor = color || THEMES.light['--text']
 
   return (

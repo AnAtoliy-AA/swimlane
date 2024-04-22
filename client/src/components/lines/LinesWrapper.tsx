@@ -1,5 +1,5 @@
 import { ILine } from '@/types/ILine'
-import Line from './Line'
+import Line, { LineWrapper } from './Line'
 import styled from 'styled-components'
 import { useCallback, useState } from 'react'
 import AddComponent from '../AddComponent'
@@ -49,8 +49,11 @@ const Wrapper = styled.div<{
 }>`
   display: flex;
   flex-direction: ${({ $direction }) => ($direction ? 'row' : 'column')};
-
-  background-color: var(--background);
+  width: 80vw;
+  height: 80vh;
+  justify-content: space-around;
+  gap: 20px;
+  margin: 0 auto;
 `
 
 const LinesWrapper = () => {
@@ -95,7 +98,9 @@ const LinesWrapper = () => {
               />
             )
           })}
-          <AddComponent add={addLine} />
+          <LineWrapper>
+            <AddComponent add={addLine} />
+          </LineWrapper>
         </Wrapper>
       </ArcherContainer>
     </DndContext>
