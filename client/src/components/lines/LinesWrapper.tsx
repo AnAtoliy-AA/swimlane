@@ -66,12 +66,9 @@ const LinesWrapper = () => {
     setLines((prev) => prev.filter((line) => line.id !== id))
   }, [])
 
-  console.log('active', nodeItems)
   const handleDragEnd = useCallback((event: DragEndEvent) => {
     const { over, active } = event
 
-    console.log('O', over)
-    console.log('active', active)
     setNodeItems((prev) =>
       moveItem({ items: prev, itemId: active?.id, destinationId: over?.id }),
     )

@@ -11,8 +11,6 @@ interface IOpts {
 const moveItem = ({ items, itemId, destinationId }: IOpts): TNodeItems => {
   if (!itemId || !destinationId) return items
 
-  console.log(items)
-
   const [lineId, moveItemId] = String(itemId).split(LINE_ITEM_ID_SEPARATOR)
 
   const copyItems = structuredClone(items)
