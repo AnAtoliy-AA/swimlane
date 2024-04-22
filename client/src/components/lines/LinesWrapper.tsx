@@ -41,6 +41,19 @@ mockItems.set(mockLines[2].id, [
     text: 'Check the stock',
     position: { lineId: mockLines[2].id, index: 0 },
     targetId: '20',
+    shape: 'oval',
+  },
+  {
+    id: '23',
+    text: '',
+    position: { lineId: mockLines[2].id, index: 1 },
+  },
+  {
+    id: '24',
+    text: 'Is the product in stock',
+    position: { lineId: mockLines[2].id, index: 2 },
+    targetId: '20',
+    shape: 'oval',
   },
 ])
 
@@ -48,10 +61,9 @@ const Wrapper = styled.div<{
   $direction?: boolean
 }>`
   display: flex;
-  flex-direction: ${({ $direction }) => ($direction ? 'row' : 'column')};
+  flex-direction: ${({ $direction }) => ($direction ? 'column' : 'row')};
   width: 80vw;
   height: 80vh;
-  justify-content: space-around;
   gap: 20px;
   margin: 0 auto;
 `
@@ -75,10 +87,15 @@ const LinesWrapper = () => {
   }, [])
 
   const handleDragEnd = useCallback((event: DragEndEvent) => {
-    const { over, active } = event
+    const { over, active, delta } = event
 
     setNodeItems((prev) =>
-      moveItem({ items: prev, itemId: active?.id, destinationId: over?.id }),
+      moveItem({
+        items: prev,
+        itemId: active?.id,
+        destinationId: over?.id,
+        deltaY: delta.y,
+      }),
     )
   }, [])
 

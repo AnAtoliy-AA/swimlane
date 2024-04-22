@@ -5,6 +5,7 @@ import NodeItem from '../NodeItem'
 import Droppable from '../dnd/Droppable'
 import styled from 'styled-components'
 import { RemoveSVG } from '@/assets/RemoveSVG'
+import useSettingsStore from '@/store/settingsStore'
 
 interface IProps {
   line: ILine
@@ -14,10 +15,14 @@ interface IProps {
 
 export const LineWrapper = styled.div`
   width: 100%;
+  height: 100%;
+  min-height: 150px;
+  min-width: 200px;
   background-color: var(--background);
   border: 1px solid var(--text);
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
 `
 
 const LineHeader = styled.div`
@@ -25,8 +30,16 @@ const LineHeader = styled.div`
   justify-content: space-around;
 `
 
+const ItemsWrapper = styled.div<{
+  $direction?: boolean
+}>`
+  display: flex;
+  flex-direction: ${({ $direction }) => ($direction ? 'row' : 'column')};
+`
+
 const Line = ({ line, items, remove }: IProps) => {
   const { id, name } = line
+  const { isHorizontal } = useSettingsStore()
 
   const handleRemove = useCallback(() => {
     if (remove) {
@@ -35,19 +48,23 @@ const Line = ({ line, items, remove }: IProps) => {
   }, [id, remove])
 
   return (
-    <LineWrapper>
-      <Droppable id={id}>
+    <Droppable id={id}>
+      <LineWrapper>
         <LineHeader>
           <p>{name}</p>
           <button onClick={handleRemove}>
             <RemoveSVG />
           </button>
         </LineHeader>
-        {items?.map((nodeItem: INodeItem) => {
-          return <NodeItem key={nodeItem.id} nodeItem={nodeItem} lineId={id} />
-        })}
-      </Droppable>
-    </LineWrapper>
+        <ItemsWrapper $direction={isHorizontal}>
+          {items?.map((nodeItem: INodeItem) => {
+            return (
+              <NodeItem key={nodeItem.id} nodeItem={nodeItem} lineId={id} />
+            )
+          })}
+        </ItemsWrapper>
+      </LineWrapper>
+    </Droppable>
   )
 }
 

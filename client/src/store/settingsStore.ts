@@ -8,7 +8,7 @@ export interface SettigsState {
 }
 
 const useSettingsStore = create<SettigsState>((set) => ({
-  isHorizontal: true,
+  isHorizontal: false,
   isModalOpen: false,
   toggleIsHorizontal: () =>
     set((state: SettigsState) => ({
