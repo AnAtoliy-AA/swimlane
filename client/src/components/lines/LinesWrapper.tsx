@@ -24,6 +24,7 @@ const Wrapper = styled.div<{
 
 const LinesWrapper = () => {
   const [lines, setLines] = useState<Array<ILine>>(mockLines)
+
   const addLine = useCallback(() => {
     setLines((prev) => {
       const lastItemId = prev[length - 1]?.id
@@ -32,12 +33,16 @@ const LinesWrapper = () => {
     })
   }, [])
 
+  const removeLine = useCallback((id: number | string) => {
+    setLines((prev) => prev.filter((line) => line.id !== id))
+  }, [])
+
   return (
     <Wrapper>
       {lines.map((line: ILine) => {
-        return <Line line={line} />
+        return <Line line={line} remove={removeLine} />
       })}
-      <AddComponent cb={addLine} />
+      <AddComponent add={addLine} />
     </Wrapper>
   )
 }

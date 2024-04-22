@@ -1,15 +1,15 @@
 import { useCallback } from 'react'
 
 interface IProps {
-  cb?: VoidFunction
+  add?: VoidFunction
 }
 
-const AddComponent = ({ cb }: IProps) => {
+const AddComponent = ({ add }: IProps) => {
   const handleClick = useCallback(() => {
-    if (cb) {
-      cb()
+    if (add) {
+      add()
     }
-  }, [cb])
+  }, [add])
 
   return <div onClick={handleClick}>+</div>
 }
