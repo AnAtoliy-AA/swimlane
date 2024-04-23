@@ -13,6 +13,7 @@ export interface ItemsState {
   moveItems: (opts: Omit<IMoveItemsOpts, 'items'>) => void
   addItems: (lineId: ID) => void
   removeItems: (itemId: ID, lineId: ID) => void
+  renameLine: (id: ID, name: string) => void
 }
 
 const useItemsStore = create<ItemsState>((set) => ({
@@ -21,6 +22,10 @@ const useItemsStore = create<ItemsState>((set) => ({
   addLine: () =>
     set((state: ItemsState) => ({
       lines: [...state.lines, { id: uuidv4(), name: '' }],
+    })),
+  renameLine: (id: ID, name: string) =>
+    set((state: ItemsState) => ({
+      lines: state.lines.map((line) => (line?.id === id ? { id, name } : line)),
     })),
   removeLine: (id: ID) =>
     set((state: ItemsState) => ({

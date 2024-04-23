@@ -1,6 +1,6 @@
 import { ILine } from '@/types/ILine'
 import { ID, INodeItem } from '@/types/INodeItem'
-import { useCallback } from 'react'
+import { ChangeEvent, useCallback, useState } from 'react'
 import NodeItem from '../NodeItem'
 import Droppable from '../dnd/Droppable'
 import styled from 'styled-components'
@@ -48,8 +48,10 @@ const ItemsWrapper = styled.div<{
 
 const Line = ({ line, items, remove }: IProps) => {
   const { id, name } = line
-  const { isHorizontal } = useSettingsStore()
-  const { addItems } = useItemsStore()
+  const { isHorizontal, isEditionBlocked } = useSettingsStore()
+  const { renameLine, addItems } = useItemsStore()
+
+  const [isEdit, setIsEdit] = useState<boolean>(false)
 
   const handleAddItemClick = useCallback(
     (id: ID) => () => {
@@ -64,11 +66,30 @@ const Line = ({ line, items, remove }: IProps) => {
     }
   }, [id, remove])
 
+  const toggleIsEdit = useCallback(() => {
+    setIsEdit((prev) => !prev)
+  }, [])
+
+  const handleInputChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      renameLine(id, e.target.value)
+    },
+    [id, renameLine],
+  )
+
   return (
     <Droppable id={id}>
       <LineWrapper $direction={isHorizontal}>
         <LineHeader>
-          <p>{name}</p>
+          {isEdit && !isEditionBlocked ? (
+            <input
+              value={name}
+              onChange={handleInputChange}
+              onDoubleClick={toggleIsEdit}
+            />
+          ) : (
+            <p onDoubleClick={toggleIsEdit}>{name}</p>
+          )}
           <RemoveComponent remove={handleRemove} />
         </LineHeader>
         <ItemsWrapper $direction={isHorizontal}>
