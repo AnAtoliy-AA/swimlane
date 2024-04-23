@@ -5,7 +5,7 @@ import { useCallback, useState } from 'react'
 import AddComponent from '../AddComponent'
 import { DndContext, DragEndEvent } from '@dnd-kit/core'
 import { ArcherContainer } from 'react-archer'
-import moveItem, { getLineItemId } from '@/utils/moveItem'
+import moveItem from '@/utils/moveItem'
 import useSettingsStore from '@/store/settingsStore'
 import mockItems, { TNodeItems, mockLines } from '@/constants/mocks'
 import { ModalContainer } from '../styled/Modal/ModalContainer'
@@ -47,7 +47,7 @@ const LinesWrapper = () => {
   const handleDragEnd = useCallback(
     (event: DragEndEvent) => {
       const { over, active, delta } = event
-      const { lineId } = getLineItemId(active?.id)
+      const lineId = active?.data?.current?.lineId
 
       const destinationId = over?.id
 
@@ -59,6 +59,7 @@ const LinesWrapper = () => {
         moveItem({
           items: prev,
           itemId: active?.id,
+          lineId,
           destinationId,
           deltaY: delta.y,
         }),

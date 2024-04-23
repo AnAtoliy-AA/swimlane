@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from 'uuid'
-import { LINE_ITEM_ID_SEPARATOR } from '@/components/dnd/Draggable'
 import { TNodeItems } from '@/constants/mocks'
 import { ID } from '@/types/INodeItem'
 import { createNewDate } from './createNewDate'
@@ -7,6 +6,7 @@ import { createNewDate } from './createNewDate'
 interface IOpts {
   items: TNodeItems
   itemId?: ID
+  lineId: ID
   destinationId?: ID
   deltaY: number
 }
@@ -14,32 +14,25 @@ interface IOpts {
 export const ITEM_SIZE = 150
 export const ITEMS_GAP = 40
 
-export const getLineItemId = (id: ID) => {
-  const [lineId, moveItemId] = String(id).split(LINE_ITEM_ID_SEPARATOR)
-
-  return { lineId, moveItemId }
-}
-
 const moveItem = ({
   items,
   itemId,
+  lineId,
   destinationId,
   deltaY,
 }: IOpts): TNodeItems => {
   if (!itemId || !destinationId) return items
 
-  const { lineId, moveItemId } = getLineItemId(itemId)
-
   const copyItems = structuredClone(items)
 
   const oldItem = copyItems
     .get(lineId)
-    ?.find((removedItem) => removedItem.id === moveItemId)
+    ?.find((removedItem) => removedItem.id === itemId)
 
   if (oldItem) {
     const arrayWithoutItem =
       copyItems.get(lineId)?.map((item) => {
-        if (item.id !== moveItemId) return item
+        if (item.id !== itemId) return item
 
         return { id: uuidv4(), position: oldItem.position, text: '' }
       }) || []

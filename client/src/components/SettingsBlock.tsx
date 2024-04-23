@@ -6,6 +6,7 @@ import styled from 'styled-components'
 
 export const SettingsWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: var(--background);
@@ -13,8 +14,14 @@ export const SettingsWrapper = styled.div`
 `
 
 const SettingsBlock = () => {
-  const { isModalOpen, isHorizontal, toggleIsModalOpen, toggleIsHorizontal } =
-    useSettingsStore()
+  const {
+    isModalOpen,
+    isHorizontal,
+    isEditionBlocked,
+    toggleIsModalOpen,
+    toggleIsHorizontal,
+    toggleIsEditionBlocked,
+  } = useSettingsStore()
 
   return (
     <>
@@ -24,10 +31,16 @@ const SettingsBlock = () => {
 
       <ModalContainer isModalShown={isModalOpen} onClick={toggleIsModalOpen}>
         <SettingsWrapper>
+          <h2>Settings</h2>
           <Checkbox
             checked={isHorizontal}
             label='Show horizontal?'
             onChange={toggleIsHorizontal}
+          />
+          <Checkbox
+            checked={isEditionBlocked}
+            label='Block all edition'
+            onChange={toggleIsEditionBlocked}
           />
         </SettingsWrapper>
       </ModalContainer>

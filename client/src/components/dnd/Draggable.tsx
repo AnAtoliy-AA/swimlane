@@ -1,3 +1,4 @@
+import useSettingsStore from '@/store/settingsStore'
 import { UniqueIdentifier, useDraggable } from '@dnd-kit/core'
 import { CSS } from '@dnd-kit/utilities'
 import { PropsWithChildren } from 'react'
@@ -7,11 +8,15 @@ interface IProps {
   lineId?: UniqueIdentifier
 }
 
-export const LINE_ITEM_ID_SEPARATOR = '-->'
-
 const Draggable = ({ id, lineId, children }: PropsWithChildren<IProps>) => {
+  const { isEditionBlocked } = useSettingsStore()
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: lineId ? `${lineId}${LINE_ITEM_ID_SEPARATOR}${id}` : id,
+    id,
+    disabled: isEditionBlocked,
+    data: {
+      lineId,
+      id,
+    },
   })
 
   const style = {
