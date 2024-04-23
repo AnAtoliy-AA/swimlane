@@ -1,10 +1,116 @@
 import { TShape } from '@/types/INodeItem'
-import { addItem, removeItem } from './moveItem'
+import { addItem, moveItem, removeItem } from './moveItem'
 
 vi.mock('uuidv4')
 vi.mock('./createNewDate')
 
 describe('utils tests', () => {
+  describe('moveItem', () => {
+    function mockDate(year = 2024, month = 0, day = 1): Date {
+      return new Date(year, month, day)
+    }
+
+    it('moves the item with the specified ID to the destination line with correct index based on deltaY', () => {
+      const mockItems = new Map([
+        [
+          1,
+          [
+            {
+              id: 'item1',
+              position: { lineId: 1, index: 0 },
+              shape: 'rectangle' as TShape,
+              text: 'Item 1',
+            },
+            {
+              id: 'item2',
+              position: { lineId: 1, index: 1 },
+              shape: 'rectangle' as TShape,
+              text: 'Item 2',
+            },
+          ],
+        ],
+        [
+          2,
+          [
+            {
+              id: 'item3',
+              position: { lineId: 2, index: 0 },
+              shape: 'rectangle' as TShape,
+              text: 'Item 3',
+            },
+          ],
+        ],
+      ])
+
+      const itemId = 'item2'
+      const lineId = 1
+      const destinationId = 2
+      const deltaY = 100
+
+      const expectedItems = new Map([
+        [
+          1,
+          [
+            {
+              id: 'item1',
+              position: { lineId: 1, index: 0 },
+              text: 'Item 1',
+              shape: 'rectangle' as TShape,
+            },
+          ],
+        ],
+        [
+          2,
+          [
+            {
+              id: 'item3',
+              position: { lineId: 2, index: 0 },
+              text: 'Item 3',
+              shape: 'rectangle' as TShape,
+            },
+            {
+              id: itemId,
+              position: { lineId: 2, index: 2 },
+              text: 'Item 2',
+              shape: 'rectangle' as TShape,
+              changedAt: [mockDate()],
+            },
+          ],
+        ],
+      ])
+
+      const updatedItems = moveItem({
+        items: mockItems,
+        itemId,
+        lineId,
+        destinationId,
+        deltaY,
+      })
+
+      expect(updatedItems.size).toBe(mockItems.size)
+
+      console.log('updatedItems', updatedItems)
+
+      expect(updatedItems.get(lineId)?.length).toBe(
+        expectedItems.get(destinationId)?.length,
+      )
+      expect(
+        updatedItems.get(destinationId)?.find((item) => item.id === itemId),
+      ).toBeTruthy()
+      expect(
+        updatedItems.get(destinationId)?.find((item) => item.id === itemId)
+          ?.position,
+      ).toEqual(expectedItems.get(destinationId)?.[1].position)
+
+      expect(
+        updatedItems.get(destinationId)?.find((item) => item.id === itemId)
+          ?.changedAt?.length,
+      ).toBe(1)
+
+      expect(mockItems).toEqual(mockItems)
+    })
+  })
+
   describe('addItem', () => {
     it('adds a new item with a unique ID and default text/shape to the specified line', () => {
       const mockItems = new Map([

@@ -20,6 +20,7 @@ export interface IMoveItemsOpts extends IRemoveItemsOpts {
 export const ITEM_SIZE = 150
 export const ITEMS_GAP = 40
 
+//TODO refactor if/else tatements
 export const moveItem = ({
   items,
   itemId,
@@ -34,6 +35,8 @@ export const moveItem = ({
   const oldItem = copyItems
     .get(lineId)
     ?.find((removedItem) => removedItem.id === itemId)
+
+  console.log('old', oldItem)
 
   if (oldItem) {
     const arrayWithoutItem =
@@ -86,16 +89,25 @@ export const moveItem = ({
         ),
       )
     } else {
-      const updated = destinationArray.map((item) => {
-        if (item.position.index === newItemIndex) return editedItem
+      if (editedItem.position.index > destinationArray.length - 1) {
+        copyItems.set(
+          destinationId,
+          [...destinationArray, editedItem].sort(
+            (a, b) => a.position.index - b.position.index,
+          ),
+        )
+      } else {
+        const updated = destinationArray.map((item) => {
+          if (item.position.index === newItemIndex) return editedItem
 
-        return item
-      })
+          return item
+        })
 
-      copyItems.set(
-        destinationId,
-        [...updated].sort((a, b) => a.position.index - b.position.index),
-      )
+        copyItems.set(
+          destinationId,
+          [...updated].sort((a, b) => a.position.index - b.position.index),
+        )
+      }
     }
   }
 
