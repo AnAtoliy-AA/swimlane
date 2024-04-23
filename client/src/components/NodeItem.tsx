@@ -76,7 +76,7 @@ const NodeItem = ({ nodeItem, lineId }: IProps) => {
       }
     >
       <ModalContainer isModalShown={isItemInfo} onClick={toggleItemInfo}>
-        <h3>Additional info</h3>
+        <h3>Additional info: </h3>
         <p>Created at: {createdAt}</p>
         {changedAt && <p>Last changed at: {changedAt[changedAt.length - 1]}</p>}
         {changedAt && (
