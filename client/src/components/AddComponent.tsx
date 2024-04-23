@@ -1,3 +1,4 @@
+import useSettingsStore from '@/store/settingsStore'
 import { useCallback } from 'react'
 
 interface IProps {
@@ -5,11 +6,12 @@ interface IProps {
 }
 
 const AddComponent = ({ add }: IProps) => {
+  const { isEditionBlocked } = useSettingsStore()
   const handleClick = useCallback(() => {
-    if (add) {
+    if (add && !isEditionBlocked) {
       add()
     }
-  }, [add])
+  }, [add, isEditionBlocked])
 
   return <button onClick={handleClick}>Add new</button>
 }

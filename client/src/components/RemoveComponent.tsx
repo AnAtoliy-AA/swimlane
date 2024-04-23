@@ -1,4 +1,5 @@
 import { RemoveSVG } from '@/assets/RemoveSVG'
+import useSettingsStore from '@/store/settingsStore'
 import { useCallback } from 'react'
 
 interface IProps {
@@ -6,11 +7,12 @@ interface IProps {
 }
 
 const RemoveComponent = ({ remove }: IProps) => {
+  const { isEditionBlocked } = useSettingsStore()
   const handleClick = useCallback(() => {
-    if (remove) {
+    if (remove && !isEditionBlocked) {
       remove()
     }
-  }, [remove])
+  }, [isEditionBlocked, remove])
 
   return (
     <button onClick={handleClick}>

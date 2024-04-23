@@ -75,7 +75,7 @@ const LinesWrapper = () => {
           isModalShown={isDragModalOpen}
           onClick={toggleDragModalOpen}
         >
-          <p>Confirm</p>
+          <p>Add additional info</p>
         </ModalContainer>
       </ArcherContainer>
     </DndContext>

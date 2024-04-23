@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import { TNodeItems } from '@/constants/mocks'
-import { ID } from '@/types/INodeItem'
+import { ID, TShape } from '@/types/INodeItem'
 import { createNewDate } from './createNewDate'
 
 export interface IAddItemsOpts {
@@ -40,7 +40,12 @@ export const moveItem = ({
       copyItems.get(lineId)?.map((item) => {
         if (item.id !== itemId) return item
 
-        return { id: uuidv4(), position: oldItem.position, text: '' }
+        return {
+          id: uuidv4(),
+          position: oldItem.position,
+          text: '',
+          shape: 'rectangle' as TShape,
+        }
       }) || []
 
     copyItems.set(lineId, arrayWithoutItem)
@@ -110,6 +115,7 @@ export const addItem = ({ items, lineId }: IAddItemsOpts) => {
       {
         id: uuidv4(),
         text: 'newItem',
+        shape: 'rectangle' as TShape,
         position: {
           lineId,
           index: typeof lastItemIndex === 'number' ? lastItemIndex++ : 0,
@@ -137,6 +143,7 @@ export const removeItem = ({ items, lineId, itemId }: IRemoveItemsOpts) => {
           id: uuidv4(),
           position: oldItem.position,
           text: '',
+          shape: 'rectangle' as TShape,
           createdAt: createNewDate(),
         }
       }) || []
