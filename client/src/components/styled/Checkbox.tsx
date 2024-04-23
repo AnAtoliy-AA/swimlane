@@ -9,15 +9,13 @@ interface IProps {
 const Checkbox = ({ checked, label, onChange }: IProps) => {
   return (
     <Styled onClick={onChange}>
-      <label>
-        {label}
-        <input
-          type='checkbox'
-          checked={checked}
-          aria-label={label}
-          onChange={onChange}
-        />
-      </label>
+      <input
+        type='checkbox'
+        checked={checked}
+        aria-label={label}
+        onChange={onChange}
+      />
+      <label>{label}</label>
     </Styled>
   )
 }
