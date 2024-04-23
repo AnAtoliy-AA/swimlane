@@ -5,9 +5,10 @@ import { useCallback, useState } from 'react'
 import AddComponent from '../AddComponent'
 import { DndContext, DragEndEvent } from '@dnd-kit/core'
 import { ArcherContainer } from 'react-archer'
-import moveItem from '@/utils/moveItem'
+import moveItem, { getLineItemId } from '@/utils/moveItem'
 import useSettingsStore from '@/store/settingsStore'
 import mockItems, { TNodeItems, mockLines } from '@/constants/mocks'
+import { ModalContainer, OutsideBackground } from '../styled/ModalContainer'
 
 const Wrapper = styled.div<{
   $direction?: boolean
@@ -25,6 +26,7 @@ const LinesWrapper = () => {
 
   const [lines, setLines] = useState<Array<ILine>>(mockLines)
   const [nodeItems, setNodeItems] = useState<TNodeItems>(mockItems)
+  const [isDragModalOpen, setIsDragModalOpen] = useState<boolean>(false)
 
   const addLine = useCallback(() => {
     setLines((prev) => {
@@ -38,18 +40,32 @@ const LinesWrapper = () => {
     setLines((prev) => prev.filter((line) => line.id !== id))
   }, [])
 
-  const handleDragEnd = useCallback((event: DragEndEvent) => {
-    const { over, active, delta } = event
-
-    setNodeItems((prev) =>
-      moveItem({
-        items: prev,
-        itemId: active?.id,
-        destinationId: over?.id,
-        deltaY: delta.y,
-      }),
-    )
+  const toggleDragModalOpen = useCallback(() => {
+    setIsDragModalOpen((prev) => !prev)
   }, [])
+
+  const handleDragEnd = useCallback(
+    (event: DragEndEvent) => {
+      const { over, active, delta } = event
+      const { lineId } = getLineItemId(active?.id)
+
+      const destinationId = over?.id
+
+      if (lineId !== destinationId) {
+        toggleDragModalOpen()
+      }
+
+      setNodeItems((prev) =>
+        moveItem({
+          items: prev,
+          itemId: active?.id,
+          destinationId,
+          deltaY: delta.y,
+        }),
+      )
+    },
+    [toggleDragModalOpen],
+  )
 
   return (
     <DndContext onDragEnd={handleDragEnd}>
@@ -71,6 +87,13 @@ const LinesWrapper = () => {
             <AddComponent add={addLine} />
           </LineWrapper>
         </Wrapper>
+        <ModalContainer $isVisible={isDragModalOpen}>
+          <OutsideBackground
+            $isVisible={isDragModalOpen}
+            onClick={toggleDragModalOpen}
+          />
+          <p>Confirm</p>
+        </ModalContainer>
       </ArcherContainer>
     </DndContext>
   )
