@@ -3,10 +3,16 @@ import { TNodeItems } from '@/constants/mocks'
 import { ID } from '@/types/INodeItem'
 import { createNewDate } from './createNewDate'
 
-interface IOpts {
+export interface IAddItemsOpts {
   items: TNodeItems
-  itemId?: ID
   lineId: ID
+}
+
+export interface IRemoveItemsOpts extends IAddItemsOpts {
+  itemId?: ID
+}
+
+export interface IMoveItemsOpts extends IRemoveItemsOpts {
   destinationId?: ID
   deltaY: number
 }
@@ -14,13 +20,13 @@ interface IOpts {
 export const ITEM_SIZE = 150
 export const ITEMS_GAP = 40
 
-const moveItem = ({
+export const moveItem = ({
   items,
   itemId,
   lineId,
   destinationId,
   deltaY,
-}: IOpts): TNodeItems => {
+}: IMoveItemsOpts): TNodeItems => {
   if (!itemId || !destinationId) return items
 
   const copyItems = structuredClone(items)
@@ -91,4 +97,52 @@ const moveItem = ({
   return copyItems
 }
 
-export default moveItem
+export const addItem = ({ items, lineId }: IAddItemsOpts) => {
+  const copyItems = structuredClone(items)
+  const destinationArray = copyItems.get(lineId) || []
+  let lastItemIndex =
+    destinationArray[destinationArray.length - 1]?.position?.index
+
+  copyItems.set(
+    lineId,
+    [
+      ...destinationArray,
+      {
+        id: uuidv4(),
+        text: 'newItem',
+        position: {
+          lineId,
+          index: typeof lastItemIndex === 'number' ? lastItemIndex++ : 0,
+        },
+      },
+    ].sort((a, b) => a.position.index - b.position.index),
+  )
+
+  return copyItems
+}
+
+export const removeItem = ({ items, lineId, itemId }: IRemoveItemsOpts) => {
+  const copyItems = structuredClone(items)
+
+  const oldItem = copyItems
+    .get(lineId)
+    ?.find((removedItem) => removedItem.id === itemId)
+
+  if (oldItem) {
+    const arrayWithoutItem =
+      copyItems.get(lineId)?.map((item) => {
+        if (item.id !== itemId) return item
+
+        return {
+          id: uuidv4(),
+          position: oldItem.position,
+          text: '',
+          createdAt: createNewDate(),
+        }
+      }) || []
+
+    copyItems.set(lineId, arrayWithoutItem)
+  }
+
+  return copyItems
+}

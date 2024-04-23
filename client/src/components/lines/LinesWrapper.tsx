@@ -5,9 +5,7 @@ import { useCallback, useState } from 'react'
 import AddComponent from '../AddComponent'
 import { DndContext, DragEndEvent } from '@dnd-kit/core'
 import { ArcherContainer } from 'react-archer'
-import moveItem from '@/utils/moveItem'
 import useSettingsStore from '@/store/settingsStore'
-import mockItems, { TNodeItems } from '@/constants/mocks'
 import { ModalContainer } from '../styled/Modal/ModalContainer'
 import useItemsStore from '@/store/itemsStore'
 
@@ -24,11 +22,9 @@ const Wrapper = styled.div<{
 
 const LinesWrapper = () => {
   const { isHorizontal } = useSettingsStore()
+  const { lines, nodeItems, addLine, removeLine, moveItems } = useItemsStore()
 
-  const [nodeItems, setNodeItems] = useState<TNodeItems>(mockItems)
   const [isDragModalOpen, setIsDragModalOpen] = useState<boolean>(false)
-
-  const { lines, addLine, removeLine } = useItemsStore()
 
   const toggleDragModalOpen = useCallback(() => {
     setIsDragModalOpen((prev) => !prev)
@@ -45,17 +41,14 @@ const LinesWrapper = () => {
         toggleDragModalOpen()
       }
 
-      setNodeItems((prev) =>
-        moveItem({
-          items: prev,
-          itemId: active?.id,
-          lineId,
-          destinationId,
-          deltaY: delta.y,
-        }),
-      )
+      moveItems({
+        itemId: active?.id,
+        lineId,
+        destinationId,
+        deltaY: delta.y,
+      })
     },
-    [toggleDragModalOpen],
+    [moveItems, toggleDragModalOpen],
   )
 
   return (

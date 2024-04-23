@@ -6,6 +6,8 @@ import Xarrow from 'react-xarrows'
 import { useCallback, useState } from 'react'
 import { ModalContainer } from './styled/Modal/ModalContainer'
 import useFilterStore from '@/store/filterStore'
+import RemoveComponent from './RemoveComponent'
+import useItemsStore from '@/store/itemsStore'
 
 interface IProps {
   nodeItem: INodeItem
@@ -51,10 +53,17 @@ const NodeItem = ({ nodeItem, lineId }: IProps) => {
   const { id, text, shape, targetIds, createdAt, changedAt } = nodeItem
 
   const { textFilter } = useFilterStore()
+  const { removeItems } = useItemsStore()
 
   const [isItemInfo, setIsItemInfo] = useState<boolean>(false)
 
   const toggleItemInfo = useCallback(() => setIsItemInfo((prev) => !prev), [])
+
+  const handleRemove = useCallback(() => {
+    if (lineId) {
+      removeItems(id, lineId)
+    }
+  }, [id, lineId, removeItems])
 
   return (
     <NodeItemWrapper
@@ -78,6 +87,7 @@ const NodeItem = ({ nodeItem, lineId }: IProps) => {
         )}
         <button onClick={toggleItemInfo}>Close Info</button>
       </ModalContainer>
+      <RemoveComponent remove={handleRemove} />
       <Draggable id={id} lineId={lineId}>
         <p>{text}</p>
         {targetIds &&

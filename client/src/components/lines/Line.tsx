@@ -1,12 +1,14 @@
 import { ILine } from '@/types/ILine'
-import { INodeItem } from '@/types/INodeItem'
+import { ID, INodeItem } from '@/types/INodeItem'
 import { useCallback } from 'react'
 import NodeItem from '../NodeItem'
 import Droppable from '../dnd/Droppable'
 import styled from 'styled-components'
-import { RemoveSVG } from '@/assets/RemoveSVG'
 import useSettingsStore from '@/store/settingsStore'
 import { ITEMS_GAP } from '@/utils/moveItem'
+import AddComponent from '../AddComponent'
+import useItemsStore from '@/store/itemsStore'
+import RemoveComponent from '../RemoveComponent'
 
 interface IProps {
   line: ILine
@@ -26,6 +28,7 @@ export const LineWrapper = styled.div<{
   display: flex;
   flex-direction: column;
   gap: 20px;
+  padding: 0 20px;
 
   ${({ $direction }) => !$direction && 'max-width: 300px'};
 `
@@ -46,6 +49,14 @@ const ItemsWrapper = styled.div<{
 const Line = ({ line, items, remove }: IProps) => {
   const { id, name } = line
   const { isHorizontal } = useSettingsStore()
+  const { addItems } = useItemsStore()
+
+  const handleAddItemClick = useCallback(
+    (id: ID) => () => {
+      addItems(id)
+    },
+    [addItems],
+  )
 
   const handleRemove = useCallback(() => {
     if (remove) {
@@ -58,9 +69,7 @@ const Line = ({ line, items, remove }: IProps) => {
       <LineWrapper $direction={isHorizontal}>
         <LineHeader>
           <p>{name}</p>
-          <button onClick={handleRemove}>
-            <RemoveSVG />
-          </button>
+          <RemoveComponent remove={handleRemove} />
         </LineHeader>
         <ItemsWrapper $direction={isHorizontal}>
           {items?.map((nodeItem: INodeItem) => {
@@ -69,6 +78,7 @@ const Line = ({ line, items, remove }: IProps) => {
             )
           })}
         </ItemsWrapper>
+        <AddComponent add={handleAddItemClick(id)} />
       </LineWrapper>
     </Droppable>
   )

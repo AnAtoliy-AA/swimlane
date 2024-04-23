@@ -11,7 +11,7 @@ const AddComponent = ({ add }: IProps) => {
     }
   }, [add])
 
-  return <div onClick={handleClick}>+</div>
+  return <button onClick={handleClick}>Add new</button>
 }
 
 export default AddComponent
