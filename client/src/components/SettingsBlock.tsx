@@ -10,6 +10,7 @@ export const SettingsWrapper = styled.div`
   justify-content: center;
   align-items: center;
   background-color: var(--background);
+  padding: 20px;
   z-index: 200;
 `
 

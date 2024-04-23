@@ -52,7 +52,7 @@ const NodeItemWrapper = styled.div<{
 const NodeItem = ({ nodeItem, lineId }: IProps) => {
   const { id, text, shape, targetIds, createdAt, changedAt } = nodeItem
 
-  const { textFilter } = useFilterStore()
+  const { textFilter, filterByShape } = useFilterStore()
   const { removeItems } = useItemsStore()
 
   const [isItemInfo, setIsItemInfo] = useState<boolean>(false)
@@ -70,7 +70,9 @@ const NodeItem = ({ nodeItem, lineId }: IProps) => {
       id={`${id}`}
       $shape={shape}
       $isVisible={
-        !!text && text?.toLowerCase().includes(textFilter?.toLowerCase())
+        !!text &&
+        text?.toLowerCase().includes(textFilter?.toLowerCase()) &&
+        filterByShape.includes(shape)
       }
     >
       <ModalContainer isModalShown={isItemInfo} onClick={toggleItemInfo}>

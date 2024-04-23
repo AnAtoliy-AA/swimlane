@@ -12,7 +12,7 @@ export interface INodeItem {
   id: ID
   text: string
   position: IPosition
-  shape?: TShape
+  shape: TShape
   targetIds?: Array<string>
   createdAt?: string
   changedAt?: Array<string>
