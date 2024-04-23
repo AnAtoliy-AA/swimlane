@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid'
 import { LINE_ITEM_ID_SEPARATOR } from '@/components/dnd/Draggable'
 import { TNodeItems } from '@/constants/mocks'
 import { ID } from '@/types/INodeItem'
@@ -39,7 +40,7 @@ const moveItem = ({
       copyItems.get(lineId)?.map((item) => {
         if (item.id !== moveItemId) return item
 
-        return { id: '', position: oldItem.position, text: '' }
+        return { id: uuidv4(), position: oldItem.position, text: '' }
       }) || []
 
     copyItems.set(lineId, arrayWithoutItem)
