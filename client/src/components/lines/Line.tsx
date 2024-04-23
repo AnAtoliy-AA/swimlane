@@ -28,7 +28,7 @@ export const LineWrapper = styled.div<{
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding: 0 20px;
+  align-items: center;
 
   ${({ $direction }) => !$direction && 'max-width: 300px'};
 `
@@ -36,6 +36,9 @@ export const LineWrapper = styled.div<{
 const LineHeader = styled.div`
   display: flex;
   justify-content: space-around;
+  text-transform: capitalize;
+  width: 100%;
+  background-color: var(--text-title);
 `
 
 const ItemsWrapper = styled.div<{

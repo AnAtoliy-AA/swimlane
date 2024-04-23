@@ -49,6 +49,10 @@ const NodeItemWrapper = styled.div<{
   visibility: ${({ $isVisible }) => ($isVisible ? 'visible' : 'hidden')};
 `
 
+const ModalContentWrapper = styled.div`
+  margin: 20px;
+`
+
 const NodeItem = ({ nodeItem, lineId }: IProps) => {
   const { id, text, shape, targetIds, createdAt, changedAt } = nodeItem
 
@@ -76,18 +80,22 @@ const NodeItem = ({ nodeItem, lineId }: IProps) => {
       }
     >
       <ModalContainer isModalShown={isItemInfo} onClick={toggleItemInfo}>
-        <h3>Additional info: </h3>
-        <p>Created at: {createdAt}</p>
-        {changedAt && <p>Last changed at: {changedAt[changedAt.length - 1]}</p>}
-        {changedAt && (
-          <div>
-            History of changes:
-            {changedAt.map((el) => {
-              return <p key={el}>{el}</p>
-            })}
-          </div>
-        )}
-        <button onClick={toggleItemInfo}>Close Info</button>
+        <ModalContentWrapper>
+          <h3>Additional info: </h3>
+          <p>Created at: {createdAt}</p>
+          {changedAt && (
+            <p>Last changed at: {changedAt[changedAt.length - 1]}</p>
+          )}
+          {changedAt && (
+            <div>
+              History of changes:
+              {changedAt.map((el) => {
+                return <p key={el}>{el}</p>
+              })}
+            </div>
+          )}
+          <button onClick={toggleItemInfo}>Close Info</button>
+        </ModalContentWrapper>
       </ModalContainer>
       <RemoveComponent remove={handleRemove} />
       <Draggable id={id} lineId={lineId}>

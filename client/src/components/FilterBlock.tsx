@@ -5,7 +5,7 @@ import Checkbox from './styled/Checkbox'
 import { TShape } from '@/types/INodeItem'
 
 const FilterWrapper = styled.div`
-  height: 50px;
+  height: 60px;
   background-color: var(--background-secondary);
   border-radius: 5px;
   padding: 10px;
