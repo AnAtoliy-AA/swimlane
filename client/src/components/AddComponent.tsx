@@ -13,7 +13,11 @@ const AddComponent = ({ add }: IProps) => {
     }
   }, [add, isEditionBlocked])
 
-  return <button onClick={handleClick}>Add new</button>
+  return (
+    <button onClick={handleClick} aria-label='Add new'>
+      Add new
+    </button>
+  )
 }
 
 export default AddComponent

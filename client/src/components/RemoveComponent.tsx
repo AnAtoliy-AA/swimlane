@@ -15,7 +15,7 @@ const RemoveComponent = ({ remove }: IProps) => {
   }, [isEditionBlocked, remove])
 
   return (
-    <button onClick={handleClick}>
+    <button onClick={handleClick} aria-label='Remove'>
       <RemoveSVG />
     </button>
   )
