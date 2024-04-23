@@ -91,7 +91,7 @@ const Line = ({ line, items, remove }: IProps) => {
               onDoubleClick={toggleIsEdit}
             />
           ) : (
-            <p onDoubleClick={toggleIsEdit}>{name}</p>
+            <p onDoubleClick={toggleIsEdit}>{name || 'default name'}</p>
           )}
           <RemoveComponent remove={handleRemove} />
         </LineHeader>
