@@ -15,5 +15,5 @@ export interface INodeItem {
   shape?: TShape
   targetIds?: Array<string>
   createdAt?: string
-  changedAt?: string
+  changedAt?: Array<string>
 }

@@ -8,7 +8,7 @@ import { ArcherContainer } from 'react-archer'
 import moveItem, { getLineItemId } from '@/utils/moveItem'
 import useSettingsStore from '@/store/settingsStore'
 import mockItems, { TNodeItems, mockLines } from '@/constants/mocks'
-import { ModalContainer, OutsideBackground } from '../styled/ModalContainer'
+import { ModalContainer } from '../styled/Modal/ModalContainer'
 
 const Wrapper = styled.div<{
   $direction?: boolean
@@ -87,11 +87,10 @@ const LinesWrapper = () => {
             <AddComponent add={addLine} />
           </LineWrapper>
         </Wrapper>
-        <ModalContainer $isVisible={isDragModalOpen}>
-          <OutsideBackground
-            $isVisible={isDragModalOpen}
-            onClick={toggleDragModalOpen}
-          />
+        <ModalContainer
+          isModalShown={isDragModalOpen}
+          onClick={toggleDragModalOpen}
+        >
           <p>Confirm</p>
         </ModalContainer>
       </ArcherContainer>

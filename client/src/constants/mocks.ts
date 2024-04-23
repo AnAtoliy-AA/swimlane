@@ -1,6 +1,6 @@
 import { ILine } from '@/types/ILine'
 import { ID, INodeItem } from '@/types/INodeItem'
-import moment from 'moment'
+import { createNewDate } from '@/utils/createNewDate'
 
 export const mockLines: Array<ILine> = [
   { id: '31', name: 'customer' },
@@ -19,25 +19,25 @@ export const fillMockItems = () => {
       text: 'Place a product order',
       position: { lineId: mockLines[0].id, index: 0 },
       targetIds: ['21'],
-      createdAt: moment().format().toString(),
+      createdAt: createNewDate(),
     },
     {
       id: '24',
       text: '',
       position: { lineId: mockLines[0].id, index: 1 },
-      createdAt: moment().format().toString(),
+      createdAt: createNewDate(),
     },
     {
       id: '28',
       text: '',
       position: { lineId: mockLines[0].id, index: 2 },
-      createdAt: moment().format().toString(),
+      createdAt: createNewDate(),
     },
     {
       id: '32',
       text: 'FINISH',
       position: { lineId: mockLines[0].id, index: 3 },
-      createdAt: moment().format().toString(),
+      createdAt: createNewDate(),
     },
   ])
   mockItems.set(mockLines[1].id, [
@@ -46,25 +46,25 @@ export const fillMockItems = () => {
       text: 'Confirm if order is recieved',
       position: { lineId: mockLines[1].id, index: 0 },
       targetIds: ['22'],
-      createdAt: moment().format().toString(),
+      createdAt: createNewDate(),
     },
     {
       id: '25',
       text: 'Cancel the order',
       position: { lineId: mockLines[1].id, index: 1 },
-      createdAt: moment().format().toString(),
+      createdAt: createNewDate(),
     },
     {
       id: '29',
       text: '',
       position: { lineId: mockLines[1].id, index: 2 },
-      createdAt: moment().format().toString(),
+      createdAt: createNewDate(),
     },
     {
       id: '33',
       text: '',
       position: { lineId: mockLines[1].id, index: 3 },
-      createdAt: moment().format().toString(),
+      createdAt: createNewDate(),
     },
   ])
   mockItems.set(mockLines[2].id, [
@@ -74,7 +74,7 @@ export const fillMockItems = () => {
       position: { lineId: mockLines[2].id, index: 0 },
       targetIds: ['26'],
       shape: 'oval',
-      createdAt: moment().format().toString(),
+      createdAt: createNewDate(),
     },
     {
       id: '26',
@@ -82,20 +82,20 @@ export const fillMockItems = () => {
       position: { lineId: mockLines[2].id, index: 1 },
       targetIds: ['25', '27'],
       shape: 'oval',
-      createdAt: moment().format().toString(),
+      createdAt: createNewDate(),
     },
     {
       id: '30',
       text: '',
       position: { lineId: mockLines[2].id, index: 2 },
-      createdAt: moment().format().toString(),
+      createdAt: createNewDate(),
     },
     {
       id: '34',
       text: 'XX',
       position: { lineId: mockLines[2].id, index: 3 },
       targetIds: ['32'],
-      createdAt: moment().format().toString(),
+      createdAt: createNewDate(),
     },
   ])
 
@@ -104,7 +104,7 @@ export const fillMockItems = () => {
       id: '23',
       text: '',
       position: { lineId: mockLines[2].id, index: 0 },
-      createdAt: moment().format().toString(),
+      createdAt: createNewDate(),
     },
     {
       id: '27',
@@ -112,21 +112,21 @@ export const fillMockItems = () => {
       position: { lineId: mockLines[2].id, index: 1 },
       targetIds: ['31'],
       shape: 'oval',
-      createdAt: moment().format().toString(),
+      createdAt: createNewDate(),
     },
     {
       id: '31',
       text: 'Is credit card valid?',
       position: { lineId: mockLines[2].id, index: 2 },
       targetIds: ['35'],
-      createdAt: moment().format().toString(),
+      createdAt: createNewDate(),
     },
     {
       id: '35',
       text: 'Payment??',
       position: { lineId: mockLines[2].id, index: 2 },
       targetIds: ['34'],
-      createdAt: moment().format().toString(),
+      createdAt: createNewDate(),
     },
   ])
 }

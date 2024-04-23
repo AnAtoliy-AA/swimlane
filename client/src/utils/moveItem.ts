@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { LINE_ITEM_ID_SEPARATOR } from '@/components/dnd/Draggable'
 import { TNodeItems } from '@/constants/mocks'
 import { ID } from '@/types/INodeItem'
+import { createNewDate } from './createNewDate'
 
 interface IOpts {
   items: TNodeItems
@@ -52,6 +53,9 @@ const moveItem = ({
     const editedItem = {
       ...oldItem,
       position: { lineId: destinationId, index: newItemIndex },
+      changedAt: oldItem?.changedAt
+        ? [...oldItem.changedAt, createNewDate()]
+        : [createNewDate()],
     }
 
     const replacedItem = destinationArray.find(

@@ -1,7 +1,7 @@
 import useSettingsStore from '@/store/settingsStore'
 import Checkbox from './styled/Checkbox'
 import { SettingsSVG } from '@/assets/SettingsSVG'
-import { ModalContainer, OutsideBackground } from './styled/ModalContainer'
+import { ModalContainer } from './styled/Modal/ModalContainer'
 import styled from 'styled-components'
 
 export const SettingsWrapper = styled.div`
@@ -22,11 +22,7 @@ const SettingsBlock = () => {
         <SettingsSVG />
       </button>
 
-      <ModalContainer $isVisible={isModalOpen}>
-        <OutsideBackground
-          $isVisible={isModalOpen}
-          onClick={toggleIsModalOpen}
-        />
+      <ModalContainer isModalShown={isModalOpen} onClick={toggleIsModalOpen}>
         <SettingsWrapper>
           <Checkbox
             checked={isHorizontal}

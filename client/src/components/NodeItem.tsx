@@ -4,7 +4,7 @@ import Draggable from './dnd/Draggable'
 import { ITEM_SIZE } from '@/utils/moveItem'
 import Xarrow from 'react-xarrows'
 import { useCallback, useState } from 'react'
-import { ModalContainer, OutsideBackground } from './styled/ModalContainer'
+import { ModalContainer } from './styled/Modal/ModalContainer'
 
 interface IProps {
   nodeItem: INodeItem
@@ -45,7 +45,7 @@ const NodeItemWrapper = styled.div<{
 `
 
 const NodeItem = ({ nodeItem, lineId }: IProps) => {
-  const { id, text, shape, targetIds, createdAt } = nodeItem
+  const { id, text, shape, targetIds, createdAt, changedAt } = nodeItem
 
   const [isItemInfo, setIsItemInfo] = useState<boolean>(false)
 
@@ -54,13 +54,21 @@ const NodeItem = ({ nodeItem, lineId }: IProps) => {
   return (
     <NodeItemWrapper id={`${id}`} $shape={shape} $isVisible={!!text}>
       <button onClick={toggleItemInfo}>ShowInfo</button>
+      <ModalContainer isModalShown={isItemInfo} onClick={toggleItemInfo}>
+        <h3>Additional info</h3>
+        <p>Created at: {createdAt}</p>
+        {changedAt && <p>Last changed at: {changedAt[changedAt.length - 1]}</p>}
+        {changedAt && (
+          <div>
+            History of changes:
+            {changedAt.map((el) => {
+              return <p key={el}>{el}</p>
+            })}
+          </div>
+        )}
+        <button onClick={toggleItemInfo}>Close Info</button>
+      </ModalContainer>
       <Draggable id={id} lineId={lineId}>
-        <ModalContainer $isVisible={isItemInfo}>
-          <OutsideBackground $isVisible={isItemInfo} onClick={toggleItemInfo} />
-          <p>XXXXXXXXX</p>
-          <p>{createdAt}</p>
-        </ModalContainer>
-        {String(isItemInfo)}
         <p>{text}</p>
         {targetIds &&
           targetIds.map((targetId) => {

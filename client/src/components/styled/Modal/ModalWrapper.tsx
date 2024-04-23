@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const ModalContainer = styled.div<{
+export const ModalWrapper = styled.div<{
   $isVisible?: boolean
   $zIndex?: number
 }>`
@@ -20,10 +20,4 @@ export const ModalContainer = styled.div<{
   transition: opacity 250ms 700ms ease;
 
   visibility: ${({ $isVisible }) => ($isVisible ? 'visible' : 'hidden')};
-`
-
-export const OutsideBackground = styled(ModalContainer)`
-  background-color: var(--text);
-  opacity: 0.85;
-  z-index: 150;
 `
