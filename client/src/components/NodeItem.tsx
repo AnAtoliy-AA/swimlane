@@ -1,8 +1,8 @@
 import { ID, INodeItem, TShape } from '@/types/INodeItem'
 import styled from 'styled-components'
 import Draggable from './dnd/Draggable'
-import { ArcherElement } from 'react-archer'
 import { ITEM_SIZE } from '@/utils/moveItem'
+import Xarrow from 'react-xarrows'
 
 interface IProps {
   nodeItem: INodeItem
@@ -43,27 +43,24 @@ const NodeItemWrapper = styled.div<{
 `
 
 const NodeItem = ({ nodeItem, lineId }: IProps) => {
-  const { id, text, shape, targetId } = nodeItem
+  const { id, text, shape, targetIds } = nodeItem
 
   return (
     <Draggable id={id} lineId={lineId}>
-      <NodeItemWrapper $shape={shape} $isVisible={!!text}>
-        {targetId ? (
-          <ArcherElement
-            id={`${id}`}
-            relations={[
-              {
-                targetId: targetId,
-                targetAnchor: 'top',
-                sourceAnchor: 'bottom',
-              },
-            ]}
-          >
-            <p>{text}</p>
-          </ArcherElement>
-        ) : (
-          <p>{text}</p>
-        )}
+      <NodeItemWrapper id={`${id}`} $shape={shape} $isVisible={!!text}>
+        <p>{text}</p>
+        {targetIds &&
+          targetIds.map((targetId) => {
+            return (
+              <Xarrow
+                key={targetId}
+                color='var(--text-title)'
+                start={`${id}`}
+                end={targetId}
+                // endAnchor={+id > +targetId ? 'bottom' : 'auto'}
+              />
+            )
+          })}
       </NodeItemWrapper>
     </Draggable>
   )

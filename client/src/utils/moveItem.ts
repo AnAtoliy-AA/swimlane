@@ -1,5 +1,5 @@
 import { LINE_ITEM_ID_SEPARATOR } from '@/components/dnd/Draggable'
-import { TNodeItems } from '@/components/lines/LinesWrapper'
+import { TNodeItems } from '@/constants/mocks'
 import { ID } from '@/types/INodeItem'
 
 interface IOpts {
@@ -10,7 +10,7 @@ interface IOpts {
 }
 
 export const ITEM_SIZE = 150
-export const ITEMS_GAP = 10
+export const ITEMS_GAP = 40
 
 const moveItem = ({
   items,
