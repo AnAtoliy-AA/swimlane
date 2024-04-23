@@ -1,5 +1,4 @@
 import { UniqueIdentifier } from '@dnd-kit/core'
-
 export type ID = UniqueIdentifier
 
 export interface IPosition {
@@ -15,4 +14,6 @@ export interface INodeItem {
   position: IPosition
   shape?: TShape
   targetIds?: Array<string>
+  createdAt?: string
+  changedAt?: string
 }

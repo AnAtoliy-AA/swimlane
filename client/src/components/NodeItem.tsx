@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import Draggable from './dnd/Draggable'
 import { ITEM_SIZE } from '@/utils/moveItem'
 import Xarrow from 'react-xarrows'
+import { useCallback, useState } from 'react'
+import { ModalContainer, OutsideBackground } from './styled/ModalContainer'
 
 interface IProps {
   nodeItem: INodeItem
@@ -43,11 +45,22 @@ const NodeItemWrapper = styled.div<{
 `
 
 const NodeItem = ({ nodeItem, lineId }: IProps) => {
-  const { id, text, shape, targetIds } = nodeItem
+  const { id, text, shape, targetIds, createdAt } = nodeItem
+
+  const [isItemInfo, setIsItemInfo] = useState<boolean>(false)
+
+  const toggleItemInfo = useCallback(() => setIsItemInfo((prev) => !prev), [])
 
   return (
-    <Draggable id={id} lineId={lineId}>
-      <NodeItemWrapper id={`${id}`} $shape={shape} $isVisible={!!text}>
+    <NodeItemWrapper id={`${id}`} $shape={shape} $isVisible={!!text}>
+      <button onClick={toggleItemInfo}>ShowInfo</button>
+      <Draggable id={id} lineId={lineId}>
+        <ModalContainer $isVisible={isItemInfo}>
+          <OutsideBackground $isVisible={isItemInfo} onClick={toggleItemInfo} />
+          <p>XXXXXXXXX</p>
+          <p>{createdAt}</p>
+        </ModalContainer>
+        {String(isItemInfo)}
         <p>{text}</p>
         {targetIds &&
           targetIds.map((targetId) => {
@@ -61,8 +74,8 @@ const NodeItem = ({ nodeItem, lineId }: IProps) => {
               />
             )
           })}
-      </NodeItemWrapper>
-    </Draggable>
+      </Draggable>
+    </NodeItemWrapper>
   )
 }
 
