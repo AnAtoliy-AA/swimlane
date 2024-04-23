@@ -7,8 +7,9 @@ import { DndContext, DragEndEvent } from '@dnd-kit/core'
 import { ArcherContainer } from 'react-archer'
 import moveItem from '@/utils/moveItem'
 import useSettingsStore from '@/store/settingsStore'
-import mockItems, { TNodeItems, mockLines } from '@/constants/mocks'
+import mockItems, { TNodeItems } from '@/constants/mocks'
 import { ModalContainer } from '../styled/Modal/ModalContainer'
+import useItemsStore from '@/store/itemsStore'
 
 const Wrapper = styled.div<{
   $direction?: boolean
@@ -24,21 +25,10 @@ const Wrapper = styled.div<{
 const LinesWrapper = () => {
   const { isHorizontal } = useSettingsStore()
 
-  const [lines, setLines] = useState<Array<ILine>>(mockLines)
   const [nodeItems, setNodeItems] = useState<TNodeItems>(mockItems)
   const [isDragModalOpen, setIsDragModalOpen] = useState<boolean>(false)
 
-  const addLine = useCallback(() => {
-    setLines((prev) => {
-      const lastItemId = Number(prev[length - 1]?.id)
-
-      return [...prev, { id: lastItemId ? lastItemId + 1 : 0, name: '' }]
-    })
-  }, [])
-
-  const removeLine = useCallback((id: number | string) => {
-    setLines((prev) => prev.filter((line) => line.id !== id))
-  }, [])
+  const { lines, addLine, removeLine } = useItemsStore()
 
   const toggleDragModalOpen = useCallback(() => {
     setIsDragModalOpen((prev) => !prev)
