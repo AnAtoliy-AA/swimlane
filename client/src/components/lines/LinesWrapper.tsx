@@ -4,10 +4,10 @@ import styled from 'styled-components'
 import { useCallback, useState } from 'react'
 import AddComponent from '../AddComponent'
 import { DndContext, DragEndEvent } from '@dnd-kit/core'
-import { ArcherContainer } from 'react-archer'
 import useSettingsStore from '@/store/settingsStore'
 import { ModalContainer } from '../styled/Modal/ModalContainer'
 import useItemsStore from '@/store/itemsStore'
+import { useXarrow } from 'react-xarrows'
 
 const Wrapper = styled.div<{
   $direction?: boolean
@@ -23,6 +23,7 @@ const Wrapper = styled.div<{
 const LinesWrapper = () => {
   const { isHorizontal } = useSettingsStore()
   const { lines, nodeItems, addLine, removeLine, moveItems } = useItemsStore()
+  const updateXarrow = useXarrow()
 
   const [isDragModalOpen, setIsDragModalOpen] = useState<boolean>(false)
 
@@ -47,37 +48,32 @@ const LinesWrapper = () => {
         destinationId,
         deltaY: delta.y,
       })
+
+      updateXarrow()
     },
-    [moveItems, toggleDragModalOpen],
+    [moveItems, toggleDragModalOpen, updateXarrow],
   )
 
   return (
     <DndContext onDragEnd={handleDragEnd}>
-      <ArcherContainer strokeColor='var(--background-secondary)'>
-        <Wrapper $direction={isHorizontal}>
-          {lines.map((line: ILine) => {
-            const items = nodeItems.get(line.id)
+      <Wrapper $direction={isHorizontal}>
+        {lines.map((line: ILine) => {
+          const items = nodeItems.get(line.id)
 
-            return (
-              <Line
-                key={line.id}
-                line={line}
-                remove={removeLine}
-                items={items}
-              />
-            )
-          })}
-          <LineWrapper>
-            <AddComponent add={addLine} />
-          </LineWrapper>
-        </Wrapper>
-        <ModalContainer
-          isModalShown={isDragModalOpen}
-          onClick={toggleDragModalOpen}
-        >
-          <p>Add additional info</p>
-        </ModalContainer>
-      </ArcherContainer>
+          return (
+            <Line key={line.id} line={line} remove={removeLine} items={items} />
+          )
+        })}
+        <LineWrapper>
+          <AddComponent add={addLine} />
+        </LineWrapper>
+      </Wrapper>
+      <ModalContainer
+        isModalShown={isDragModalOpen}
+        onClick={toggleDragModalOpen}
+      >
+        <p>Add additional info</p>
+      </ModalContainer>
     </DndContext>
   )
 }
