@@ -49,6 +49,10 @@ const ItemsWrapper = styled.div<{
   gap: ${ITEMS_GAP}px;
 `
 
+const LineName = styled.h2`
+  color: var(--text-light);
+`
+
 const Line = ({ line, items, remove }: IProps) => {
   const { id, name } = line
   const { isHorizontal, isEditionBlocked } = useSettingsStore()
@@ -91,7 +95,9 @@ const Line = ({ line, items, remove }: IProps) => {
               onDoubleClick={toggleIsEdit}
             />
           ) : (
-            <p onDoubleClick={toggleIsEdit}>{name || 'default name'}</p>
+            <LineName onDoubleClick={toggleIsEdit}>
+              {name || 'default name'}
+            </LineName>
           )}
           <RemoveComponent remove={handleRemove} />
         </LineHeader>
