@@ -26,7 +26,7 @@ const SettingsBlock = () => {
 
   return (
     <>
-      <button onClick={toggleIsModalOpen} aria-label='Remove'>
+      <button onClick={toggleIsModalOpen} aria-label='Settings'>
         <SettingsSVG />
       </button>
 
