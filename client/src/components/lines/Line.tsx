@@ -1,0 +1,117 @@
+import { ILine } from '@/types/ILine'
+import { ID, INodeItem } from '@/types/INodeItem'
+import { ChangeEvent, useCallback, useState } from 'react'
+import NodeItem from '../NodeItem'
+import Droppable from '../dnd/Droppable'
+import styled from 'styled-components'
+import useSettingsStore from '@/store/settingsStore'
+import { ITEMS_GAP } from '@/utils/moveItem'
+import AddComponent from '../AddComponent'
+import useItemsStore from '@/store/itemsStore'
+import RemoveComponent from '../RemoveComponent'
+
+interface IProps {
+  line: ILine
+  items?: Array<INodeItem>
+  remove?: (id: number | string) => void
+}
+
+export const LineWrapper = styled.div<{
+  $direction?: boolean
+}>`
+  width: 100%;
+  height: 100%;
+  min-height: 150px;
+  min-width: 200px;
+  background-color: var(--background);
+  border: 1px solid var(--text);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+
+  ${({ $direction }) => !$direction && 'max-width: 300px'};
+`
+
+const LineHeader = styled.div`
+  display: flex;
+  justify-content: space-around;
+  text-transform: capitalize;
+  width: 100%;
+  background-color: var(--text-title);
+`
+
+const ItemsWrapper = styled.div<{
+  $direction?: boolean
+}>`
+  display: flex;
+  flex-direction: ${({ $direction }) => ($direction ? 'row' : 'column')};
+  gap: ${ITEMS_GAP}px;
+`
+
+const LineName = styled.h2`
+  color: var(--text-light);
+`
+
+const Line = ({ line, items, remove }: IProps) => {
+  const { id, name } = line
+  const { isHorizontal, isEditionBlocked } = useSettingsStore()
+  const { renameLine, addItems } = useItemsStore()
+
+  const [isEdit, setIsEdit] = useState<boolean>(false)
+
+  const handleAddItemClick = useCallback(
+    (id: ID) => () => {
+      addItems(id)
+    },
+    [addItems],
+  )
+
+  const handleRemove = useCallback(() => {
+    if (remove) {
+      remove(id)
+    }
+  }, [id, remove])
+
+  const toggleIsEdit = useCallback(() => {
+    setIsEdit((prev) => !prev)
+  }, [])
+
+  const handleInputChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      renameLine(id, e.target.value)
+    },
+    [id, renameLine],
+  )
+
+  return (
+    <Droppable id={id}>
+      <LineWrapper $direction={isHorizontal}>
+        <LineHeader>
+          {isEdit && !isEditionBlocked ? (
+            <input
+              value={name}
+              onChange={handleInputChange}
+              onDoubleClick={toggleIsEdit}
+            />
+          ) : (
+            <LineName onDoubleClick={toggleIsEdit}>
+              {name || 'default name'}
+            </LineName>
+          )}
+          <RemoveComponent remove={handleRemove} />
+        </LineHeader>
+        <ItemsWrapper $direction={isHorizontal}>
+          {items?.map((nodeItem: INodeItem) => {
+            return (
+              <NodeItem key={nodeItem.id} nodeItem={nodeItem} lineId={id} />
+            )
+          })}
+        </ItemsWrapper>
+        <AddComponent add={handleAddItemClick(id)} />
+      </LineWrapper>
+    </Droppable>
+  )
+}
+
+export default Line
