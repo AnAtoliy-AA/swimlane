@@ -101,7 +101,7 @@ export const fillMockItems = () => {
     },
     {
       id: '34',
-      text: 'XX',
+      text: 'Ship order',
       position: { lineId: mockLines[2].id, index: 3 },
       shape: 'rectangle',
       targetIds: ['32'],
@@ -119,7 +119,7 @@ export const fillMockItems = () => {
     },
     {
       id: '27',
-      text: 'check credit card',
+      text: 'Check credit card',
       position: { lineId: mockLines[2].id, index: 1 },
       targetIds: ['31'],
       shape: 'oval',
@@ -135,7 +135,7 @@ export const fillMockItems = () => {
     },
     {
       id: '35',
-      text: 'Payment??',
+      text: 'Payment valid?',
       position: { lineId: mockLines[2].id, index: 2 },
       shape: 'rectangle',
       targetIds: ['34'],
