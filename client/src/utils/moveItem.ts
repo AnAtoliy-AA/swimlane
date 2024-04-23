@@ -36,8 +36,6 @@ export const moveItem = ({
     .get(lineId)
     ?.find((removedItem) => removedItem.id === itemId)
 
-  console.log('old', oldItem)
-
   if (oldItem) {
     const arrayWithoutItem =
       copyItems.get(lineId)?.map((item) => {

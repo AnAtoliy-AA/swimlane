@@ -89,8 +89,6 @@ describe('utils tests', () => {
 
       expect(updatedItems.size).toBe(mockItems.size)
 
-      console.log('updatedItems', updatedItems)
-
       expect(updatedItems.get(lineId)?.length).toBe(
         expectedItems.get(destinationId)?.length,
       )
