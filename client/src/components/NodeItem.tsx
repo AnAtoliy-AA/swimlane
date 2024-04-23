@@ -5,6 +5,7 @@ import { ITEM_SIZE } from '@/utils/moveItem'
 import Xarrow from 'react-xarrows'
 import { useCallback, useState } from 'react'
 import { ModalContainer } from './styled/Modal/ModalContainer'
+import useFilterStore from '@/store/filterStore'
 
 interface IProps {
   nodeItem: INodeItem
@@ -33,9 +34,11 @@ const NodeItemWrapper = styled.div<{
   $isVisible?: boolean
 }>`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
+  gap: 20px;
   background: var(--background-secondary);
 
   ${({ $shape }) =>
@@ -47,13 +50,20 @@ const NodeItemWrapper = styled.div<{
 const NodeItem = ({ nodeItem, lineId }: IProps) => {
   const { id, text, shape, targetIds, createdAt, changedAt } = nodeItem
 
+  const { textFilter } = useFilterStore()
+
   const [isItemInfo, setIsItemInfo] = useState<boolean>(false)
 
   const toggleItemInfo = useCallback(() => setIsItemInfo((prev) => !prev), [])
 
   return (
-    <NodeItemWrapper id={`${id}`} $shape={shape} $isVisible={!!text}>
-      <button onClick={toggleItemInfo}>ShowInfo</button>
+    <NodeItemWrapper
+      id={`${id}`}
+      $shape={shape}
+      $isVisible={
+        !!text && text?.toLowerCase().includes(textFilter?.toLowerCase())
+      }
+    >
       <ModalContainer isModalShown={isItemInfo} onClick={toggleItemInfo}>
         <h3>Additional info</h3>
         <p>Created at: {createdAt}</p>
@@ -83,6 +93,7 @@ const NodeItem = ({ nodeItem, lineId }: IProps) => {
             )
           })}
       </Draggable>
+      <button onClick={toggleItemInfo}>ShowInfo</button>
     </NodeItemWrapper>
   )
 }

@@ -14,7 +14,9 @@ interface IProps {
   remove?: (id: number | string) => void
 }
 
-export const LineWrapper = styled.div`
+export const LineWrapper = styled.div<{
+  $direction?: boolean
+}>`
   width: 100%;
   height: 100%;
   min-height: 150px;
@@ -24,6 +26,8 @@ export const LineWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  ${({ $direction }) => !$direction && 'max-width: 300px'};
 `
 
 const LineHeader = styled.div`
@@ -51,7 +55,7 @@ const Line = ({ line, items, remove }: IProps) => {
 
   return (
     <Droppable id={id}>
-      <LineWrapper>
+      <LineWrapper $direction={isHorizontal}>
         <LineHeader>
           <p>{name}</p>
           <button onClick={handleRemove}>

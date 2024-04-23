@@ -15,8 +15,8 @@ const Wrapper = styled.div<{
 }>`
   display: flex;
   flex-direction: ${({ $direction }) => ($direction ? 'column' : 'row')};
-  width: 80vw;
-  height: 90vh;
+  min-width: 80vw;
+  min-height: 85vh;
   gap: 20px;
   margin: 0 auto;
 `
